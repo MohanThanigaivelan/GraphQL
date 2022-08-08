@@ -9,4 +9,7 @@ class Author < ApplicationRecord
         [rand(100), rand(100)]
     end
 
+    validates :last_name, presence: true
+    validates :first_name, presence: true
+
 end

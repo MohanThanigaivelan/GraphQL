@@ -16,5 +16,26 @@ class Types::AuthorType < Types::BaseObject
 
     field :publication_years, [Integer], null: false
 
+    field :errors , [Types::ErrorType] , null: false 
+
+    def errors
+      object.errors.map{ |e| {field_name: e.attribute, error: e.message} }
+    end
+
+
 
 end
+
+
+class Types::AuthorInputType < GraphQL::Schema::InputObject
+  graphql_name "AuthorInputType"
+  description  "Input parameters"
+  
+  argument :id, Integer, required: false
+  argument :first_name, String, required: true
+  argument :last_name, String, required: true
+  argument :dob, String, required: true
+  argument :is_alive, Boolean, required: true
+
+end
+

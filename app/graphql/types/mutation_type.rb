@@ -1,10 +1,20 @@
 module Types
   class MutationType < Types::BaseObject
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World"
+
+    field :create_author, Types::AuthorType , mutation: Mutations::CreateAuthor
+
+    field :update_author,  mutation: Mutations::UpdateAuthor
+
+    field :delete_author, Boolean, null: true, description: "Delete" do
+      argument :id, ID, required: true
     end
+
+    def delete_author(id: )
+      Author.where(id: id).destroy_all
+      return true
+    end
+
+
+
   end
 end
