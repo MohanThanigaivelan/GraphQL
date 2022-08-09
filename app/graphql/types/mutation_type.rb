@@ -3,7 +3,7 @@ module Types
 
     field :create_author, Types::AuthorType , mutation: Mutations::CreateAuthor
 
-    field :update_author,  mutation: Mutations::UpdateAuthor
+    field :update_author, Boolean ,  mutation: Mutations::UpdateAuthor
 
     field :delete_author, Boolean, null: true, description: "Delete" do
       argument :id, ID, required: true

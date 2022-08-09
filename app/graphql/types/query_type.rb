@@ -18,7 +18,7 @@ module Types
       "Hello #{name}"
     end
 
-    field :author, Types::AuthorType, null: false,
+    field :author, Types::AuthorType, null: true,
        description: "Author" do
           argument :id , ID , required: true
        end
@@ -33,6 +33,30 @@ module Types
       Author.all
     end
 
+    field :login , String , null: true, description: "Login" do
+      argument :email, String, required: true
+      argument :password, String, required: true
+    end
+
+    def login(email: , password: )
+      user = User.where(email: email).first&.authenticate(password)
+      if user
+        user.sessions.create.key
+      end
+    end
+
+    field :current_user , Types::UserType , null: true 
+
+    def current_user
+      context[:current_user]
+    end
+
+    field :logout, Boolean , null: true , description: "Logout"
+
+    def logout
+      Session.where(id: context[:session_id]).delete_all
+      true
+    end
 
   end
 end
